@@ -40,6 +40,7 @@
   let highScore = readHighScore();
 
   highScoreElement.textContent = String(highScore);
+  notifyScoreChange();
 
   function readHighScore() {
     try { return Number(localStorage.getItem('ccctt-worm-high-score')) || 0; } catch { return 0; }
@@ -50,6 +51,11 @@
     highScore = score;
     highScoreElement.textContent = String(highScore);
     try { localStorage.setItem('ccctt-worm-high-score', String(highScore)); } catch { /* storage is optional */ }
+    notifyScoreChange();
+  }
+
+  function notifyScoreChange() {
+    window.dispatchEvent(new CustomEvent('worm-score-change', { detail: { score, bestScore: highScore } }));
   }
 
   function resetGame() {

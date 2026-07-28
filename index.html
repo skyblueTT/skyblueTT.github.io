@@ -20,19 +20,21 @@
     </header>
 
     <main>
-      <section id="home" class="hero section-shell" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Professional profile</p>
-          <h1 id="hero-title">Hello, I’m cccTT.</h1>
-          <p class="lede">A focused space for selected work, ideas, and playful experiments.</p>
-          <a class="button" href="#games">Play the game</a>
-        </div>
-      </section>
+      <div class="profile-about-grid section-shell">
+        <section id="home" class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="eyebrow">Professional profile</p>
+            <h1 id="hero-title">Hello, I’m cccTT.</h1>
+            <p class="lede">A focused space for selected work, ideas, and playful experiments.</p>
+            <a class="button" href="#games">Play the game</a>
+          </div>
+        </section>
 
-      <section id="about" class="section-shell content-section" aria-labelledby="about-title">
-        <p class="eyebrow">About</p>
-        <h2 id="about-title">A simple, curious corner of the web.</h2>
-      </section>
+        <section id="about" class="content-section" aria-labelledby="about-title">
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">A simple, curious corner of the web.</h2>
+        </section>
+      </div>
 
       <section id="games" class="section-shell game-section" aria-labelledby="games-title">
         <div class="section-heading">
@@ -43,7 +45,13 @@
           <p class="game-help">Eat food, grow, and avoid the walls and roaming enemies.</p>
         </div>
 
-        <div class="game-toolbar">
+        <div class="game-switcher" role="tablist" aria-label="Game selection">
+          <button id="worm-tab" class="game-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="worm-game-panel">Worm Run</button>
+          <button id="plane-tab" class="game-tab" type="button" role="tab" aria-selected="false" aria-controls="plane-game-panel" disabled>Plane Run <span>(Best 200)</span></button>
+        </div>
+
+        <div id="worm-game-panel" role="tabpanel" aria-labelledby="worm-tab">
+          <div class="game-toolbar">
           <label for="difficulty">Difficulty
             <select id="difficulty">
               <option value="easy">Easy</option>
@@ -55,26 +63,56 @@
             <span>Score <strong id="score">0</strong></span>
             <span>Best <strong id="high-score">0</strong></span>
           </div>
-        </div>
-
-        <div class="game-wrap">
-          <canvas id="game-canvas" width="600" height="400" aria-label="Worm game board"></canvas>
-          <p id="game-status" class="game-status" role="status">Choose a difficulty, then press Start.</p>
-        </div>
-
-        <div class="game-actions">
-          <button id="start-game" class="button" type="button">Start</button>
-          <button id="pause-game" class="button secondary" type="button" disabled>Pause</button>
-          <button id="restart-game" class="button secondary" type="button">Restart</button>
-        </div>
-
-        <div class="touch-controls" aria-label="Touch controls">
-          <button type="button" data-direction="up" aria-label="Move up">▲</button>
-          <div>
-            <button type="button" data-direction="left" aria-label="Move left">◀</button>
-            <button type="button" data-direction="down" aria-label="Move down">▼</button>
-            <button type="button" data-direction="right" aria-label="Move right">▶</button>
           </div>
+
+          <div class="game-wrap">
+            <canvas id="game-canvas" width="600" height="400" aria-label="Worm game board"></canvas>
+            <p id="game-status" class="game-status" role="status">Choose a difficulty, then press Start.</p>
+          </div>
+
+          <div class="game-actions">
+            <button id="start-game" class="button" type="button">Start</button>
+            <button id="pause-game" class="button secondary" type="button" disabled>Pause</button>
+            <button id="restart-game" class="button secondary" type="button">Restart</button>
+          </div>
+
+          <div class="touch-controls" aria-label="Touch controls">
+            <button type="button" data-direction="up" aria-label="Move up">▲</button>
+            <div>
+              <button type="button" data-direction="left" aria-label="Move left">◀</button>
+              <button type="button" data-direction="down" aria-label="Move down">▼</button>
+              <button type="button" data-direction="right" aria-label="Move right">▶</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="plane-game-panel" class="plane-game-panel" role="tabpanel" aria-labelledby="plane-tab" hidden>
+          <div class="game-toolbar">
+            <p class="game-help">Fly, fire, and survive the enemy wave.</p>
+            <div class="scoreboard" aria-live="polite">
+              <span>Score <strong id="plane-score">0</strong></span>
+              <span>Best <strong id="plane-high-score">0</strong></span>
+            </div>
+          </div>
+          <div class="game-wrap">
+            <canvas id="plane-canvas" width="600" height="400" aria-label="Plane game board"></canvas>
+            <p id="plane-status" class="game-status" role="status">Reach Best Score 200 in Worm Run to unlock.</p>
+          </div>
+          <div class="game-actions">
+            <button id="plane-start" class="button" type="button" disabled>Start</button>
+            <button id="plane-pause" class="button secondary" type="button" disabled>Pause</button>
+            <button id="plane-restart" class="button secondary" type="button" disabled>Restart</button>
+          </div>
+          <div class="touch-controls plane-touch-controls" aria-label="Plane touch controls">
+            <button type="button" data-plane-direction="up" aria-label="Fly up" disabled>▲</button>
+            <div>
+              <button type="button" data-plane-direction="left" aria-label="Fly left" disabled>◀</button>
+              <button type="button" data-plane-direction="down" aria-label="Fly down" disabled>▼</button>
+              <button type="button" data-plane-direction="right" aria-label="Fly right" disabled>▶</button>
+              <button type="button" data-plane-fire aria-label="Fire" disabled>Fire</button>
+            </div>
+          </div>
+          <p class="game-help">Arrow keys/WASD move. Space fires.</p>
         </div>
       </section>
     </main>
@@ -85,5 +123,6 @@
     </footer>
     <script src="script.js" defer></script>
     <script src="game.js" defer></script>
+    <script src="plane-game.js" defer></script>
   </body>
 </html>
