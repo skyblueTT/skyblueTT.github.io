@@ -117,7 +117,8 @@
   }
 
   function spawnEnemy() {
-    enemies.push({ id: enemyId++, x: Math.random() * (WIDTH - 28), y: -30, width: 28, height: 24, speed: 1.5 + Math.random() * 2, drift: (Math.random() - .5) * 2, shoots: Math.random() > .45, shotAt: Date.now() });
+    const colors = ['#f7768e', '#e0af68', '#7aa2f7', '#9ece6a', '#bb9af7'];
+    enemies.push({ id: enemyId++, x: Math.random() * (WIDTH - 28), y: -30, width: 28, height: 24, color: colors[Math.floor(Math.random() * colors.length)], speed: 1.5 + Math.random() * 2, drift: (Math.random() - .5) * 2, shoots: Math.random() > .45, shotAt: Date.now() });
   }
 
   function updateBullets() { bullets = bullets.filter((bullet) => { bullet.y -= 8; return bullet.y > -12; }); }
@@ -154,10 +155,26 @@
 
   function draw() {
     ctx.fillStyle = '#08111f'; ctx.fillRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillStyle = '#bb9af7'; ctx.fillRect(player.x, player.y, player.width, player.height);
+    drawPlane(player.x, player.y, player.width, player.height, '#bb9af7', 0);
     ctx.fillStyle = '#7aa2f7'; bullets.forEach((bullet) => ctx.fillRect(bullet.x - 2, bullet.y - 8, 4, 10));
-    ctx.fillStyle = '#f7768e'; enemies.forEach((enemy) => ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height));
+    enemies.forEach((enemy) => drawPlane(enemy.x, enemy.y, enemy.width, enemy.height, enemy.color, Math.PI));
     ctx.fillStyle = '#e0af68'; enemyBullets.forEach((bullet) => ctx.fillRect(bullet.x - 3, bullet.y - 6, 6, 12));
+  }
+
+  function drawPlane(x, y, width, height, color, rotation) {
+    ctx.save();
+    ctx.translate(x + width / 2, y + height / 2);
+    ctx.rotate(rotation);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(0, -height / 2);
+    ctx.lineTo(width * .28, height * .42);
+    ctx.lineTo(0, height * .24);
+    ctx.lineTo(-width * .28, height * .42);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillRect(-width * .1, -height * .1, width * .2, height * .42);
+    ctx.restore();
   }
 
   function selectPlane() { if (tab.disabled) return; wormPanel.hidden = true; panel.hidden = false; wormTab.setAttribute('aria-selected', 'false'); tab.setAttribute('aria-selected', 'true'); }
